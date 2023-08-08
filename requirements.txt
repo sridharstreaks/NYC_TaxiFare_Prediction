@@ -4,3 +4,4 @@ geopy==2.2.0
 joblib==1.0.1
 scikit-learn==0.24.2
 xgboost==1.7.5
+opencage==2.3.0
