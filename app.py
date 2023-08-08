@@ -24,9 +24,43 @@ def get_coordinates(place_name):
     return None
 
 # Create the Streamlit app
-st.title('NYC Taxi Fare Prediction')
+st.set_page_config(
+    page_title="NYC Taxi Fare Prediction",
+    page_icon="🚖",
+    layout="wide",
+    initial_sidebar_state="auto",
+)
 
-st.sidebar.header('User Inputs')
+# Custom CSS styling
+st.markdown(
+    """
+    <style>
+    .sidebar .sidebar-content {
+        background-color: #f5f5f5;
+    }
+    .stButton > button:first-child {
+        background-color: #336699;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+    }
+    .stButton > button:first-child:hover {
+        background-color: #204975;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+
+# Create the Streamlit app
+st.title('NYC Taxi Fare Calculator')
+st.markdown(
+    "Predict the fare amount for a NYC taxi ride based on user inputs.")
+
+
+st.sidebar.header('Inputs')
 
 pickup_location = st.sidebar.text_input('Enter Pickup Location', 'Times Square, New York')
 dropoff_location = st.sidebar.text_input('Enter Dropoff Location', 'Central Park, New York')
@@ -62,7 +96,16 @@ if pickup_coords and dropoff_coords:
     ewr_distance = calculate_distance(dropoff_coords, ewr_coords)
     met_distance = calculate_distance(dropoff_coords, met_coords)
     wtc_distance = calculate_distance(dropoff_coords, wtc_coords)
-    
+
+    # Explanation for including the distances to famous places
+st.write("## Why These Distances?")
+st.markdown(
+    """
+    We've included the distances to the following famous places in New York City because these locations often have higher surcharges due to their popularity and significance. 
+    Including them as features helps our model better capture fare predictions for trips to these destinations.
+    """
+)
+
     st.write(f'Distance to JFK Airport: {jfk_distance:.2f} km')
     st.write(f'Distance to LGA Airport: {lga_distance:.2f} km')
     st.write(f'Distance to EWR Airport: {ewr_distance:.2f} km')
@@ -98,10 +141,22 @@ if pickup_coords and dropoff_coords:
         'met_drop_distance': [met_distance],
         'wtc_drop_distance': [wtc_distance]
     })
-    
+
+
+# Submit button
+st.sidebar.markdown("<button type='submit'>Predict Fare</button>", unsafe_allow_html=True)
+
     # Make predictions using the loaded model
     prediction = model.predict(input_data)
     
     st.write(f'Predicted Fare Amount: ${prediction[0]:.2f}')
 else:
     st.write('Invalid location names. Please provide valid names.')
+
+# Footer
+st.sidebar.markdown(
+    """
+    ---\n
+    🚖 This app is for educational purposes only. Always verify actual fare amounts with taxi services.
+    """
+)
