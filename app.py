@@ -27,7 +27,11 @@ dropoff_location = st.sidebar.text_input('Enter Dropoff Location', 'Central Park
 
 passenger_count = st.sidebar.number_input('Enter Passenger Count', min_value=1, max_value=10, value=1)
 
-date_time = st.sidebar.datetime_input('Enter Date and Time', value=pd.to_datetime('2023-08-08 12:00:00'))
+date = st.sidebar.date_input('Enter Date', pd.to_datetime('2023-08-08'))
+time = st.sidebar.time_input('Enter Time', pd.to_datetime('12:00'))
+
+# Combine date and time into a single DateTime object
+date_time = pd.to_datetime(str(date) + ' ' + str(time))
 
 pickup_coords = get_coordinates(pickup_location)
 dropoff_coords = get_coordinates(dropoff_location)
