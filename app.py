@@ -75,6 +75,7 @@ if pickup_coords and dropoff_coords:
     day = date_time.day
     day_of_week = date_time.weekday()
     week_of_year = date_time.strftime("%U")
+    week_of_year= int(week_of_year)
     hour = date_time.hour
     
     # Prepare input features for prediction
