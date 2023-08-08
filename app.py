@@ -149,8 +149,12 @@ if pickup_coords and dropoff_coords:
     # Make predictions using the loaded model
     prediction = model.predict(input_data)
     
-    st.write(f'Predicted Fare Amount: ${prediction[0]:.2f}')
-    st.markdown(f"<p style='font-size:24px; font-weight:bold; text-align:center; color:green;'>{prediction}</p>", unsafe_allow_html=True)
+    st.markdown(
+        "<p style='font-size:24px; font-weight:bold; text-align:center; color:green;'>"
+        f"Predicted Fare Amount: ${prediction[0]:.2f}"
+        "</p>",
+        unsafe_allow_html=True
+    )
 else:
     st.markdown(
         "<p style='font-size:24px; font-weight:bold; text-align:center; color:red;'>"
