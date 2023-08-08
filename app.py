@@ -162,11 +162,32 @@ else:
         "</p>",
         unsafe_allow_html=True
     )
+    
+hex_code_kaggle="#20beff"
+# Hyperlink to Kaggle analysis
+st.markdown(
+    "<p style='font-size:15px; font-weight:bold; text-align:center; color: {hex_code_kaggle}; font-style: italic;'>"
+    "<a href='https://www.kaggle.com/code/sridharstreaks/new-york-taxi-fare-prediction-score-3-1899' target='_blank' rel='noopener noreferrer'>View full Analysis in Kaggle</a>"
+    "</p>",
+    unsafe_allow_html=True
+)
+
+hex_code_github="A2A1A1"
+# Hyperlink to Github repo
+st.markdown(
+    "<p style='font-size:15px; font-weight:bold; text-align:center; color: {hex_code_github}; font-style: italic:'>"
+    "<a href='https://github.com/sridharstreaks/NYC_TaxiFare_Prediction' target='_blank' rel='noopener noreferrer'>View Github repo</a>"
+    "</p>",
+    unsafe_allow_html=True
+)
+
 
 # Footer
 st.sidebar.markdown(
     """
     ---\n
     🚖 This app is for educational purposes only. Always verify actual fare amounts with taxi services.
+    Also the geolocation convertor used here is a paid service and i'm using a free tier incase of the app not working properly,
+    create a issue on the provided Github Repo.
     """
 )
