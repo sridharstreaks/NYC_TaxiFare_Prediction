@@ -98,13 +98,13 @@ if pickup_coords and dropoff_coords:
     wtc_distance = calculate_distance(dropoff_coords, wtc_coords)
 
     # Explanation for including the distances to famous places
-st.write("## Why These Distances?")
-st.markdown(
+    st.write("## Why These Distances?")
+    st.markdown(
     """
     We've included the distances to the following famous places in New York City because these locations often have higher surcharges due to their popularity and significance. 
     Including them as features helps our model better capture fare predictions for trips to these destinations.
     """
-)
+    )
 
     st.write(f'Distance to JFK Airport: {jfk_distance:.2f} km')
     st.write(f'Distance to LGA Airport: {lga_distance:.2f} km')
