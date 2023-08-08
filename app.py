@@ -143,8 +143,8 @@ if pickup_coords and dropoff_coords:
     })
 
 
-# Submit button
-st.sidebar.markdown("<button type='submit'>Predict Fare</button>", unsafe_allow_html=True)
+    # Submit button
+    st.sidebar.markdown("<button type='submit'>Predict Fare</button>", unsafe_allow_html=True)
 
     # Make predictions using the loaded model
     prediction = model.predict(input_data)
