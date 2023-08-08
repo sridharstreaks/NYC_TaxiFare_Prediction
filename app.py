@@ -150,8 +150,14 @@ if pickup_coords and dropoff_coords:
     prediction = model.predict(input_data)
     
     st.write(f'Predicted Fare Amount: ${prediction[0]:.2f}')
+    st.markdown(f"<p style='font-size:24px; font-weight:bold; text-align:center; color:green;'>{prediction_text}</p>", unsafe_allow_html=True)
 else:
-    st.write('Invalid location names. Please provide valid names.')
+    st.markdown(
+        "<p style='font-size:24px; font-weight:bold; text-align:center; color:red;'>"
+        "Invalid location names. Please provide valid names."
+        "</p>",
+        unsafe_allow_html=True
+    )
 
 # Footer
 st.sidebar.markdown(
