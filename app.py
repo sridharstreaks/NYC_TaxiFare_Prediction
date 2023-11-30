@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import geodesic
 import requests
 
 # Load the trained model
