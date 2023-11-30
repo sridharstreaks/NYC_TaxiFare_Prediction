@@ -30,11 +30,11 @@ def get_coordinates(place_name):
         data = response.json()
         if 'geometry' in data and 'coordinates' in data['geometry']:
             coordinates = data['geometry']['coordinates']
-            return coordinates[::-1]  # Reverse the order (lat, lon)
+            return coordinates  # Coordinates are not reversed here since the API already provides (lat, lon)
     
     # If the request was not successful, return None
     return None
-
+    
 # Create the Streamlit app
 st.set_page_config(
     page_title="NYC Taxi Fare Prediction",
