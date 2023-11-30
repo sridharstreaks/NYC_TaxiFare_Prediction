@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
+from geopy.distance import geodesic
 import requests
 
 # Load the trained model
@@ -13,28 +14,31 @@ def calculate_distance(coord1, coord2):
 
 # Create a function to get coordinates from place names using the new geocoding service
 def get_coordinates(place_name):
-    # Define the API endpoint for forward geocoding
-    api_endpoint = 'https://geocode.maps.co/search'
+    # Define the API endpoint for forward geocoding with the specified changes
+    api_endpoint = f'https://geocode.maps.co/search?q={"+".join(place_name.split())}+NY+US'
     
-    # Construct the query parameters for the API
-    params = {
-        'q': place_name,
-    }
-
     # Make the API request
-    response = requests.get(api_endpoint, params=params)
+    response = requests.get(api_endpoint)
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
         # Parse the JSON response to extract coordinates
         data = response.json()
-        if 'geometry' in data and 'coordinates' in data['geometry']:
-            coordinates = data['geometry']['coordinates']
-            return coordinates[::-1]  # Reverse the order (lat, lon)
-    
-    # If the request was not successful, return None
+        
+        # Check if there are results in the response
+        if data and isinstance(data, list) and len(data) > 0:
+            # Pick the first result
+            first_result = data[0]
+            
+            # Extract coordinates from the first result
+            lat = float(first_result.get('lat', 0))
+            lon = float(first_result.get('lon', 0))
+            
+            return lat, lon  # Coordinates
+            
+    # If the request was not successful or no valid coordinates found, return None
     return None
-
+  
 # Create the Streamlit app
 st.set_page_config(
     page_title="NYC Taxi Fare Prediction",
@@ -76,6 +80,7 @@ st.sidebar.header('Inputs')
 
 pickup_location = st.sidebar.text_input('Enter Pickup Location', 'Times Square, New York')
 dropoff_location = st.sidebar.text_input('Enter Dropoff Location', 'Central Park, New York')
+
 
 passenger_count = st.sidebar.number_input('Enter Passenger Count', min_value=1, max_value=10, value=1)
 
