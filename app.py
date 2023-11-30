@@ -77,6 +77,20 @@ st.sidebar.header('Inputs')
 pickup_location = st.sidebar.text_input('Enter Pickup Location', 'Times Square, New York')
 dropoff_location = st.sidebar.text_input('Enter Dropoff Location', 'Central Park, New York')
 
+# Display coordinates for pickup location
+pickup_coords = get_coordinates(pickup_location)
+if pickup_coords:
+    st.write(f'Pickup Coordinates: {pickup_coords}')
+else:
+    st.write(f'Invalid Pickup Location. Please provide a valid name.')
+
+# Display coordinates for dropoff location
+dropoff_coords = get_coordinates(dropoff_location)
+if dropoff_coords:
+    st.write(f'Dropoff Coordinates: {dropoff_coords}')
+else:
+    st.write(f'Invalid Dropoff Location. Please provide a valid name.')
+
 passenger_count = st.sidebar.number_input('Enter Passenger Count', min_value=1, max_value=10, value=1)
 
 date = st.sidebar.date_input('Enter Date', pd.to_datetime('2023-08-08'))
