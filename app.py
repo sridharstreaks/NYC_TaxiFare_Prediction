@@ -13,27 +13,37 @@ def calculate_distance(coord1, coord2):
 
 # Create a function to get coordinates from place names using the new geocoding service
 def get_coordinates(place_name):
-    # Define the API endpoint for forward geocoding
-    api_endpoint = 'https://geocode.maps.co/search'
+    # Define the API endpoint for forward geocoding with the specified changes
+    api_endpoint = f'https://geocode.maps.co/search?q={"+".join(place_name.split())}+NY+US'
     
-    # Construct the query parameters for the API
-    params = {
-        'q': place_name,
-    }
-
     # Make the API request
-    response = requests.get(api_endpoint, params=params)
+    response = requests.get(api_endpoint)
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
         # Parse the JSON response to extract coordinates
         data = response.json()
-        if 'geometry' in data and 'coordinates' in data['geometry']:
-            coordinates = data['geometry']['coordinates']
-            return coordinates  # Coordinates are not reversed here since the API already provides (lat, lon)
-    
-    # If the request was not successful, return None
+        
+        # Check if there are results in the response
+        if data and isinstance(data, list) and len(data) > 0:
+            # Pick the first result
+            first_result = data[0]
+            
+            # Extract coordinates from the first result
+            lat = float(first_result.get('lat', 0))
+            lon = float(first_result.get('lon', 0))
+            
+            return lat, lon  # Coordinates
+            
+    # If the request was not successful or no valid coordinates found, return None
     return None
+
+# Display the result
+if coordinates:
+    st.write(f'Coordinates for {location_name}: {coordinates}')
+else:
+    st.write(f'Invalid Location. Please provide a valid name.')
+
     
 # Create the Streamlit app
 st.set_page_config(
