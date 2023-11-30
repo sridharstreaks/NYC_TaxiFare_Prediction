@@ -1,26 +1,38 @@
 import streamlit as st
 import pandas as pd
 import joblib
-from opencage.geocoder import OpenCageGeocode
-from geopy.distance import geodesic
+import requests
 
 # Load the trained model
 model = joblib.load('nyc_taxi_model.pkl')
 
-# Initialize OpenCageData geocoder
-geocoder = OpenCageGeocode("f07647291ffc4d259ce67ab13ca530b5")  # Replace with your OpenCageData API key
 
 # Create a function to calculate distances
 def calculate_distance(coord1, coord2):
     return geodesic(coord1, coord2).kilometers
 
-# Create a function to get coordinates from place names using OpenCageData
+# Create a function to get coordinates from place names using the new geocoding service
 def get_coordinates(place_name):
-    result = geocoder.geocode(place_name)
-    if result and len(result):
-        lat = result[0]['geometry']['lat']
-        lon = result[0]['geometry']['lng']
-        return lat, lon
+    # Define the API endpoint for forward geocoding
+    api_endpoint = 'https://geocode.maps.co/search'
+    
+    # Construct the query parameters for the API
+    params = {
+        'q': place_name,
+    }
+
+    # Make the API request
+    response = requests.get(api_endpoint, params=params)
+
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        # Parse the JSON response to extract coordinates
+        data = response.json()
+        if 'geometry' in data and 'coordinates' in data['geometry']:
+            coordinates = data['geometry']['coordinates']
+            return coordinates[::-1]  # Reverse the order (lat, lon)
+    
+    # If the request was not successful, return None
     return None
 
 # Create the Streamlit app
