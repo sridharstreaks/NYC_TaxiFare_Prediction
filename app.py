@@ -37,14 +37,7 @@ def get_coordinates(place_name):
             
     # If the request was not successful or no valid coordinates found, return None
     return None
-
-# Display the result
-if coordinates:
-    st.write(f'Coordinates for {location_name}: {coordinates}')
-else:
-    st.write(f'Invalid Location. Please provide a valid name.')
-
-    
+  
 # Create the Streamlit app
 st.set_page_config(
     page_title="NYC Taxi Fare Prediction",
